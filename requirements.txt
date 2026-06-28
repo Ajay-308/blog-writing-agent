@@ -4,3 +4,19 @@ pymongo
 dnspython
 python-dotenv
 pydantic
+# LangGraph & LangChain
+langgraph
+langchain
+langchain-groq
+langchain-community
+langchain-core
+ 
+# LLM
+groq
+ 
+# Research
+tavily-python
+tavily
+ 
+# Image Generation
+stability-sdk
