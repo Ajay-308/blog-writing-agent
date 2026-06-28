@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import ssl
+import certifi
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
@@ -22,8 +24,7 @@ MONGODB_URL = os.getenv("MONGODB_URI") or os.getenv("MONGODB_URL")
 
 client = MongoClient(
     MONGODB_URL,
-    tls=True,
-    tlsAllowInvalidCertificates=True,  # SSL issue fix
+    tlsCAFile=certifi.where(),  # certifi SSL certificates use karo
     serverSelectionTimeoutMS=30000,
     connectTimeoutMS=30000,
 )
