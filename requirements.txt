@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pymongo
+dnspython
+python-dotenv
+pydantic
