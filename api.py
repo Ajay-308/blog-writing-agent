@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import os
-import ssl
-import certifi
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
@@ -22,12 +20,8 @@ app.add_middleware(
 
 MONGODB_URL = os.getenv("MONGODB_URI") or os.getenv("MONGODB_URL")
 
-client = MongoClient(
-    MONGODB_URL,
-    tlsCAFile=certifi.where(),  # certifi SSL certificates use karo
-    serverSelectionTimeoutMS=30000,
-    connectTimeoutMS=30000,
-)
+# tlsInsecure URL mein hai, extra options nahi chahiye
+client = MongoClient(MONGODB_URL)
 db = client[os.getenv("MONGODB_DB", "blog_db")]
 collection: Collection = db[os.getenv("MONGODB_COLLECTION", "notes")]
 
