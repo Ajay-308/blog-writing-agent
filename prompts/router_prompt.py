@@ -1,13 +1,10 @@
-from langchain_core.prompts import BasePromptTemplate
-from langchain_core.prompts import PromptTemplate
-
+from langchain_core.prompts import BasePromptTemplate, PromptTemplate
 
 router_prompt = PromptTemplate(
     input_variables=["topic"],
-    template="""
-You are a routing module for a technical blog planner.
+    template="""You are a routing module for a technical blog planner.
 
-Your task is to decide whether web research is needed BEFORE planning.
+Decide whether web research is needed BEFORE planning.
 
 Modes:
 1. closed_book (needs_research=false)
@@ -19,28 +16,23 @@ Modes:
    - Examples: RAG architectures, LLM frameworks.
 
 3. open_book (needs_research=true)
-   - Highly dynamic topics involving recent events, rankings, pricing, releases, or regulations.
+   - Highly dynamic topics involving recent events, rankings, pricing, releases.
    - Examples: "Best AI models in 2026", "Latest LangChain updates".
 
-Topic:
-{topic}
+Topic: {topic}
 
 Rules:
-- If needs_research=true, generate 3–10 high-signal search queries.
-- Queries must be specific and scoped.
-- Avoid generic queries such as "AI" or "LLM".
-- If the user mentions "latest", "this week", or "last month", include those constraints in the queries.
+- If needs_research=true, generate 3-10 specific search queries.
+- Queries must be specific and scoped. Avoid generic queries like "AI" or "LLM".
+- If the user mentions "latest", "this week", include those constraints in queries.
 
-Return JSON:
+IMPORTANT: Return ONLY a raw JSON object. No Python code. No markdown. No backticks. No explanation.
+Just the JSON object itself, starting with {{ and ending with }}.
 
-{{
-    "mode": "closed_book | hybrid | open_book",
-    "needs_research": true | false,
-    "queries": []
-}}
+Example output:
+{{"mode": "closed_book", "needs_research": false, "queries": []}}
 """
 )
-
 
 def get_router_prompt() -> BasePromptTemplate:
     return router_prompt
