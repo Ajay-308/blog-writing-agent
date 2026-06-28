@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from graph.graph import app
+from db.mongo import save_blog_to_mongo
 
 
 def run(topic: str, as_of: Optional[str] = None) -> dict:
@@ -32,6 +33,14 @@ def run(topic: str, as_of: Optional[str] = None) -> dict:
     })
 
     print(f"\n✅ Done! Blog: {out['plan'].blog_title}.md\n")
+
+    # MongoDB mein save karo
+    try:
+        doc_id = save_blog_to_mongo(out)
+        print(f"📦 MongoDB mein save ho gaya! ID: {doc_id}\n")
+    except Exception as e:
+        print(f"⚠️  MongoDB save failed: {e}\n")
+
     return out
 
 
